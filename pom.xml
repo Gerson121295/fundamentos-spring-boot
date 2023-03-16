@@ -22,11 +22,31 @@
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 
+		<!-- Al agrega 1 dependencia Hay que dar clic en el boton para actualizar dependencias
+		Solo se agrega y springboot se encarga de Autoconfigura e inicializar todas las dependencia sque vengan con esta dependencia -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!--Dependecia para herramienta de desarrollo: para reiniciar el servidor automaticamente sin reinicarlo todo   -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+
+
+		<!-- buscando reconstruir sin reiniciar de devtools, corrige el error: java: package org.junit.jupiter.api does not exist -->
+
+
 	</dependencies>
 
 	<build>
