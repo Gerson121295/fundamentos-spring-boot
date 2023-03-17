@@ -2,6 +2,7 @@ package com.fundamentosplatzi.springboot.fundamentos;
 
 import com.fundamentosplatzi.springboot.fundamentos.bean.MyBean;
 import com.fundamentosplatzi.springboot.fundamentos.bean.MyBeanWithDependency;
+import com.fundamentosplatzi.springboot.fundamentos.bean.MyBeanWithProperties;
 import com.fundamentosplatzi.springboot.fundamentos.component.ComponentDependency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,14 +16,18 @@ public class FundamentosApplication implements CommandLineRunner { /* Implementa
 	private ComponentDependency componentDependency; /*inyectar la dependencia con spring boot, y agrega el nombre componentDependency */
 	private MyBean myBean; 	/*inyecto la dependecia*/
 	private MyBeanWithDependency myBeanWithDependency;
+	private MyBeanWithProperties myBeanWithProperties;
+
 
 	/*Por medio del constructor se agrega la interfaces*/
 	@Autowired /* ya no es obligatorio en versiones recientes */
-	public FundamentosApplication(@Qualifier("componentTwoImplement") ComponentDependency componentDependency, MyBean myBean, MyBeanWithDependency myBeanWithDependency) {  /*constructor recibe la dependencia para poderla inyectar, y el nombre de la dependencia es componentDependency */
+	public FundamentosApplication(@Qualifier("componentTwoImplement") ComponentDependency componentDependency, MyBean myBean, MyBeanWithDependency myBeanWithDependency,
+								  MyBeanWithProperties myBeanWithProperties) {  /*constructor recibe la dependencia para poderla inyectar, y el nombre de la dependencia es componentDependency */
 		/*@Qualifier permite elegir la dependencia que queremos inyectaran, debido a que hay 2 dependecias, la anterior y la actual" en este caso es ComponenetTwoImplementi*/
 		this.componentDependency = componentDependency; //llamada de la propiedad y la igualo al parametro dado.
 		this.myBean = myBean;
 		this.myBeanWithDependency = myBeanWithDependency;
+		this.myBeanWithProperties = myBeanWithProperties;
 	}
 
 
@@ -37,6 +42,6 @@ public class FundamentosApplication implements CommandLineRunner { /* Implementa
 		componentDependency.saludar();
 		myBean.print();//llamada de la dependencia y su implementacion(es el metodo: print(); al dar crtl + clic izq, sobre esto nos lleva a la interfaz.
 		myBeanWithDependency.printWithDependency(); //implementacion es la que esta en la clase
-
+		System.out.println(myBeanWithProperties.function());//llamado de la funcion(devuelve nombre+apellido) implementada en esa propiedad
 	}
 }
