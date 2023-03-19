@@ -25,5 +25,9 @@ public interface UserRepository extends JpaRepository<User, Long> { //JpaReposit
     List<User> findAndSort(String name, Sort sort);   //1ro clase name, 2do. clase Sort
 
 
+    //Crear un Query Method
+    List<User> findByName(String name); //implementacion, retorna una lista y encuentra por el nombre(recibe el nombre)
+    Optional<User> findByEmailAndName(String email, String name); //Retorna un solo usuario
+
 }
 

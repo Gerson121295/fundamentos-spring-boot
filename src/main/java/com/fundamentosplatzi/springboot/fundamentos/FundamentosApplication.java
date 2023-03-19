@@ -65,24 +65,34 @@ public class FundamentosApplication implements CommandLineRunner { /* Implementa
 	}
 
 	//Metodo para JPQL
-	private void getInformationJpqlFromUser(){
-		LOGGER.info("Usuario con el metodo findByUserEmail " +userRepository.findByUserEmail("John@domain.com")	//llamar a la dependencia userRepositorio.finByEmail() - metodo escrito por nosotros
-				.orElseThrow(()-> new RuntimeException("No se encontro el usuario"))); //orElseThrow en caso q no lo encuentre, muestre el mensaje
+	private void getInformationJpqlFromUser() {
+		LOGGER.info("Usuario con el metodo findByUserEmail " + userRepository.findByUserEmail("John@domain.com")    //llamar a la dependencia userRepositorio.finByEmail() - metodo escrito por nosotros
+				.orElseThrow(() -> new RuntimeException("No se encontro el usuario"))); //orElseThrow en caso q no lo encuentre, muestre el mensaje
 
 
 		//con JPQL podemos crear una funcion para enviar parametros y ordenarlo de manera descendente o ascendente(ascending()
 		//Muestra todos con los usuarios parecidos a user y los ordena descendente
-	userRepository.findAndSort("user", Sort.by("id").descending()) //user(no se envia el name completo y un parametro de la clase sort para que se ordene a partir de una propiedad id de manera descendente
-			.stream()
-			.forEach(user -> LOGGER.info("Usuario con metodo sort " +user));
-	}
+		userRepository.findAndSort("user", Sort.by("id").descending()) //user(no se envia el name completo y un parametro de la clase sort para que se ordene a partir de una propiedad id de manera descendente
+				.stream()
+				.forEach(user -> LOGGER.info("Usuario con metodo sort " + user));
 
+		//-----Query Methods
+		//LLamada del Query Method que se creo en UserRepository
+		userRepository.findByName("John")//trae todos los nombre con John
+				.stream()
+				.forEach(user -> LOGGER.info("Usuario con query method " + user));
+
+		LOGGER.info("Usuario con query method finByEmailAndName" + userRepository.findByEmailAndName("Julie@domain.com", "Julie")
+				.orElseThrow(() -> new RuntimeException("Usuario no encontrado")));
+
+
+	}
 
 	//Metodo para persistir nuestra informacion
 	private  void saveUsersInDataBase(){
 		User user1 = new User("John", "John@domain.com", LocalDate.of(21,03,20));
 		User user2 = new User("Julie", "Julie@domain.com", LocalDate.of(20,07,10));
-		User user3 = new User("user3", "user3@domain.com", LocalDate.of(18,03,12));
+		User user3 = new User("John", "user3@domain.com", LocalDate.of(18,03,12));
 		User user4 = new User("user4", "user4@domain.com", LocalDate.of(22,04,20));
 		User user5 = new User("user5", "user5@domain.com", LocalDate.of(21,06,03));
 		User user6 = new User("user6", "user6@domain.com", LocalDate.of(20,05,18));
