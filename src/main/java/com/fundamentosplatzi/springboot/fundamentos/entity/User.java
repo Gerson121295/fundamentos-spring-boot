@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
     @Id  //Obligado xq representa la entidad a nivel de la tabbla de la BD
     @GeneratedValue(strategy = GenerationType.AUTO) //para que se cree un id unico, .auto  //para que se autoincremente al agregar un user
