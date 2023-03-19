@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -60,7 +61,22 @@ public class FundamentosApplication implements CommandLineRunner { /* Implementa
 	public void run(String... args) {  	//	throws Exception { /*Este metodo ejecuta todo lo que querramos mostrar */
 		//ejemplosAnteriores();
 		saveUsersInDataBase(); //llamada del metodo //luego ejecutar y en el servidor se muestran los log de sentencias sql
+		getInformationJpqlFromUser();
 	}
+
+	//Metodo para JPQL
+	private void getInformationJpqlFromUser(){
+		LOGGER.info("Usuario con el metodo findByUserEmail " +userRepository.findByUserEmail("John@domain.com")	//llamar a la dependencia userRepositorio.finByEmail() - metodo escrito por nosotros
+				.orElseThrow(()-> new RuntimeException("No se encontro el usuario"))); //orElseThrow en caso q no lo encuentre, muestre el mensaje
+
+
+		//con JPQL podemos crear una funcion para enviar parametros y ordenarlo de manera descendente o ascendente(ascending()
+		//Muestra todos con los usuarios parecidos a user y los ordena descendente
+	userRepository.findAndSort("user", Sort.by("id").descending()) //user(no se envia el name completo y un parametro de la clase sort para que se ordene a partir de una propiedad id de manera descendente
+			.stream()
+			.forEach(user -> LOGGER.info("Usuario con metodo sort " +user));
+	}
+
 
 	//Metodo para persistir nuestra informacion
 	private  void saveUsersInDataBase(){
