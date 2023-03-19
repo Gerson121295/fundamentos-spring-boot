@@ -76,7 +76,7 @@ public class FundamentosApplication implements CommandLineRunner { /* Implementa
 				.stream()
 				.forEach(user -> LOGGER.info("Usuario con metodo sort " + user));
 
-		//-----Query Methods
+		//22 -----Crear Query Methods
 		//LLamada del Query Method que se creo en UserRepository
 		userRepository.findByName("John")//trae todos los nombre con John
 				.stream()
@@ -86,26 +86,54 @@ public class FundamentosApplication implements CommandLineRunner { /* Implementa
 				.orElseThrow(() -> new RuntimeException("Usuario no encontrado")));
 
 
+		//23 Uso de query methods con Or, and, OrderBy, Between, Sort
+		userRepository.findByNameLike("%J%") //busca usuarios que enpiezen  con user %user% o una "u" %u%  //Esto es como un like en SQL, seria un select where like
+				.stream()
+				.forEach(user ->LOGGER.info("Usuario findBYNameLike "+ user));
+
+		userRepository.findByNameOrEmail("user5",null )//en el nombre no se envio, se dejo null, solo el correo se agrego, el usuariop puede ser buscado por nombre o correo
+				.stream()
+				.forEach(user -> LOGGER.info("Usuario findByNameOrEmail "+ user));
+
+		userRepository.findBycumpleaniosBetween(LocalDate.of(2021,01,01), LocalDate.of(2022,05,01))  //retornar por intervalo de fecha
+				.stream()  //debido a que es una lista
+				.forEach(user -> LOGGER.info("Usuario con intervalo de fecha: "+user));
+
+
+		userRepository.findByNameLikeOrderByIdDesc("%user%") //trae a los usuarios con nombre similar a user y los ordena descendente
+		.stream()
+				.forEach(user -> LOGGER.info("Usuario encontrado con like y ordenado descendente: "+user));
+
+
+		userRepository.findByNameContainingOrderByIdDesc("user") //trae a los usuarios con nombre similar a user, esta vez no se asigno los % %
+				.stream()
+				.forEach(user -> LOGGER.info("Usuario encontrado con like y ordenado descendente: "+user));
+
 	}
+
+
+
 
 	//Metodo para persistir nuestra informacion
 	private  void saveUsersInDataBase(){
-		User user1 = new User("John", "John@domain.com", LocalDate.of(21,03,20));
-		User user2 = new User("Julie", "Julie@domain.com", LocalDate.of(20,07,10));
-		User user3 = new User("John", "user3@domain.com", LocalDate.of(18,03,12));
-		User user4 = new User("user4", "user4@domain.com", LocalDate.of(22,04,20));
-		User user5 = new User("user5", "user5@domain.com", LocalDate.of(21,06,03));
-		User user6 = new User("user6", "user6@domain.com", LocalDate.of(20,05,18));
-		User user7 = new User("user7", "user7@domain.com", LocalDate.of(20,02,10));
-		User user8 = new User("user8", "user8@domain.com", LocalDate.of(22,03,2));
-		User user9 = new User("user9", "user9@domain.com", LocalDate.of(21,8,12));
-		User user10 = new User("user10", "user10@domain.com", LocalDate.of(20,02,15));
-		User user11 = new User("user11", "user11@domain.com", LocalDate.of(18,01,21));
-		User user12 = new User("user12", "user12@domain.com", LocalDate.of(19,8,22));
+		User user1 = new User("John", "John@domain.com", LocalDate.of(2021,03,20));
+		User user2 = new User("Julie", "Julie@domain.com", LocalDate.of(2020,07,10));
+		User user3 = new User("John", "user3@domain.com", LocalDate.of(2018,03,12));
+		User user4 = new User("user4", "user4@domain.com", LocalDate.of(2022,04,20));
+		User user5 = new User("user5", "user5@domain.com", LocalDate.of(2021,06,03));
+		User user6 = new User("user6", "user6@domain.com", LocalDate.of(2020,05,18));
+		User user7 = new User("user7", "user7@domain.com", LocalDate.of(2020,02,10));
+		User user8 = new User("user8", "user8@domain.com", LocalDate.of(2022,03,02));
+		User user9 = new User("user9", "user9@domain.com", LocalDate.of(2021,04,12));
+		User user10 = new User("user10", "user10@domain.com", LocalDate.of(2020,02,15));
+		User user11 = new User("user11", "user11@domain.com", LocalDate.of(2018,01,21));
+		User user12 = new User("user12", "user12@domain.com", LocalDate.of(2019,11,22));
 
 		List<User> list = Arrays.asList(user1, user2, user3, user4, user5, user6, user7, user8, user9, user10, user11, user12);
 		list.stream().forEach(userRepository::save); //por cada uno de los usuarios se hace un registro en la BD
 	}
+
+
 
 	public User saveUser(User user)
 	{

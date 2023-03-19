@@ -21,7 +21,7 @@ public class User {
     @Column(length = 50)
     private String email;
 
-    private LocalDate birthDate;
+    private LocalDate cumpleanios;
 
 
     //Relacion con la entidad post //un usuario tiene muchos post
@@ -32,14 +32,25 @@ public class User {
 
     public User(){  }  //Creacion de un constructor vacio
 
-    //constructor con propiedades
-    public User(String name, String email, LocalDate birthDate) {
+    //constructor con propiedades de User no va el id, ni el constructor vacio.
+
+    public User(String name, String email, LocalDate cumpleanios) {
         this.name = name;
         this.email = email;
-        this.birthDate = birthDate;
+        this.cumpleanios = cumpleanios;
     }
 
-    //Getters and Setters
+
+//    public User(String name, String email, LocalDate birthday) {
+//        this.name = name;
+//        this.email = email;
+//        this.birthday = birthday;
+//    }
+
+
+
+//    //Getters and Setters: todas las propiedades de User: incluye id, y Post
+
     public Long getId() {
         return id;
     }
@@ -64,12 +75,12 @@ public class User {
         this.email = email;
     }
 
-    public LocalDate getBirthDate() {
-        return birthDate;
+    public LocalDate getCumpleanios() {
+        return cumpleanios;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
+    public void setCumpleanios(LocalDate cumpleanios) {
+        this.cumpleanios = cumpleanios;
     }
 
     public List<Post> getPosts() {
@@ -80,7 +91,48 @@ public class User {
         this.posts = posts;
     }
 
-    //Generacion de metodo ToString
+
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
+//
+//    public LocalDate getBirthday() {
+//        return birthday;
+//    }
+//
+//    public void setBirthDate(LocalDate birthday) {
+//        this.birthday = birthday;
+//    }
+//
+//    public List<Post> getPosts() {
+//        return posts;
+//    }
+//
+//    public void setPosts(List<Post> posts) {
+//        this.posts = posts;
+//    }
+
+    //Generacion de metodo ToString: todas las propiedades de User: incluye id, y Post
 
     @Override
     public String toString() {
@@ -88,8 +140,23 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", birthDate=" + birthDate +
+                ", cumpleanios=" + cumpleanios +
                 ", posts=" + posts +
                 '}';
     }
+
+
+//    @Override
+//    public String toString() {
+//        return "User{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", email='" + email + '\'' +
+//                ", birthday=" + birthday +
+//                ", posts=" + posts +
+//                '}';
+//    }
+
+
+
 }

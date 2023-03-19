@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,5 +30,16 @@ public interface UserRepository extends JpaRepository<User, Long> { //JpaReposit
     List<User> findByName(String name); //implementacion, retorna una lista y encuentra por el nombre(recibe el nombre)
     Optional<User> findByEmailAndName(String email, String name); //Retorna un solo usuario
 
+    //Uso de query methods con Or, and, OrderBy, Between, Sort
+    List<User> findByNameLike(String name);  //Encontrar al usuario por  el nombre
+
+    List<User> findByNameOrEmail(String name, String email); //or lista de user por nombre o email
+
+    List<User> findBycumpleaniosBetween(LocalDate begin, LocalDate end); //retorna informacion por intervalo de fecha
+
+    List<User> findByNameLikeOrderByIdDesc(String name); //Asc = ascendente: -Encontrar por el id del nombre y lo ordena descendente
+
+    //Otra forma de hace consulta pero enviandole el parametro: agregando Containing
+    List<User> findByNameContainingOrderByIdDesc(String name); //encuentra todos que inicien con el parametro enviado
 }
 
