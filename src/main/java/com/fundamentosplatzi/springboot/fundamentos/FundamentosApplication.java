@@ -95,7 +95,7 @@ public class FundamentosApplication implements CommandLineRunner { /* Implementa
 				.stream()
 				.forEach(user -> LOGGER.info("Usuario findByNameOrEmail "+ user));
 
-		userRepository.findBycumpleaniosBetween(LocalDate.of(2021,01,01), LocalDate.of(2022,05,01))  //retornar por intervalo de fecha
+		userRepository.findBybirthDateBetween(LocalDate.of(2021,01,01), LocalDate.of(2022,05,01))  //retornar por intervalo de fecha
 				.stream()  //debido a que es una lista
 				.forEach(user -> LOGGER.info("Usuario con intervalo de fecha: "+user));
 
@@ -109,9 +109,12 @@ public class FundamentosApplication implements CommandLineRunner { /* Implementa
 				.stream()
 				.forEach(user -> LOGGER.info("Usuario encontrado con like y ordenado descendente: "+user));
 
+
+		// 24- Uso de JPQL con named parameters - Query a nivel de JPQL con named Parameters
+
+		LOGGER.info("El usuario a partir del named parameter es: " + userRepository.getAllByBirthDateAndEmail(LocalDate.of(2021,03,20), "John@domain.com") //se envia de los parametros de nombre o email a buscar en la BD
+				.orElseThrow(()->new RuntimeException("No se a encontrado elusuario a parti del named parameter")));
 	}
-
-
 
 
 	//Metodo para persistir nuestra informacion
