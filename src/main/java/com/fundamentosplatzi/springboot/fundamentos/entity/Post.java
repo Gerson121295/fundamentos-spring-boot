@@ -1,5 +1,7 @@
 package com.fundamentosplatzi.springboot.fundamentos.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +18,8 @@ public class Post {
 
     //Relacion con la entidad User
     @ManyToOne // Muchos Post tienen un usuario y un usuario puede tener muchos post
+    //@JsonBackReference
+    //@JsonIgnore
     private User user;
 
     //Creacion de Constructor vacio

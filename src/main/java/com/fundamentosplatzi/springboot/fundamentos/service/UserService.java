@@ -43,7 +43,8 @@ public class UserService {
     }
 
     public User update(User newUser, Long id) { //setear los usuarios en la BD
-        userRepository.findById(id)
+        return
+        userRepository.findById(id) //metodo findById se hace un map para obtener la informacion, y al final hacer el update, con save(user)
             .map(
                     user -> {
                         user.setEmail(newUser.getEmail());
@@ -52,6 +53,6 @@ public class UserService {
 
                         return userRepository.save(user);  //guardar la entidad ya mapeada con los nuevos valores
                     }
-            );
+            ).get();  //por que findById devuelve un Opcional y ese opcional es apartir de User, debemos retornar el metodo get()
     }
 }

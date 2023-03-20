@@ -1,5 +1,6 @@
 package com.fundamentosplatzi.springboot.fundamentos.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -23,10 +24,10 @@ public class User {
 
     private LocalDate birthDate;
 
-
     //Relacion con la entidad post //un usuario tiene muchos post
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)   //mapearlo con user que esta en la entidad post
-    @JsonManagedReference //para que cuando  accedamos a este servicio a nivel rest no de un error relacionado con stackoverflow
+    //@JsonManagedReference //para que cuando  accedamos a este servicio a nivel rest no de un error relacionado con stackoverflow
+    //@JsonIgnore
     private List<Post> posts = new ArrayList<>();  //lista de los post llamada post y se inicializa con new ArrayList
 
 

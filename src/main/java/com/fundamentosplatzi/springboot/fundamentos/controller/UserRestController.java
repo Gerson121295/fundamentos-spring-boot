@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 //este archivo tiene relacion con paquete caseuse
 
 @RestController //esta anotacion hereda de Controller y asu vez permite que todos los metodos creados aca se formateen con el formato JSON
@@ -47,7 +46,7 @@ public class UserRestController {
     //Metodo Post para crear los usuarios
     @PostMapping("/")
     ResponseEntity<User> newUser(@RequestBody User newUser){ //RequestBody para tener un cuerpo de entrada cuando se consuma este servicio va a venir un cuerpo el cual estara en un variable User(entidad) y el nombre newUser
-        return new ResponseEntity<>(createUser.save(newUser), save(newUser), HttpStatus.CREATED); //Create devuelve un 201 de creado el registro
+        return new ResponseEntity<>(createUser.save(newUser), HttpStatus.CREATED); //Create devuelve un 201 de creado el registro
     }
 
     //Metodo Delete
@@ -60,7 +59,6 @@ public class UserRestController {
     @PutMapping("/{id}")  //recibe un id del usuario a eliminar
     ResponseEntity<User> replaceUser(@RequestBody User newUser, @PathVariable Long id){ //recibe como parametro un cuerpo y el id
         return new ResponseEntity<>(updateUser.update(newUser, id), HttpStatus.OK); //llama al metodo update(en CaseUse) y se le envia 2 parametros el newUser y el id, devuelve una nueva instancia de ResponseEntity ok de 200 exitoso
-
     }
 
 }
