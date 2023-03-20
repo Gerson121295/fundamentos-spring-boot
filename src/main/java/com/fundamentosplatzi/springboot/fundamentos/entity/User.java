@@ -40,8 +40,11 @@ public class User {
         this.birthDate = birthDate;
     }
 
+    public User(Long id) { //requerido para eliminar por id- UserServices
+        this.id = id;
+    }
 
-//    //Getters and Setters: todas las propiedades de User: incluye id, y Post
+    //    //Getters and Setters: todas las propiedades de User: incluye id, y Post
 
     public Long getId() {
         return id;

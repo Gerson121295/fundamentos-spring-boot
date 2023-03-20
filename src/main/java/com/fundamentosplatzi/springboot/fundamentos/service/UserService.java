@@ -34,4 +34,24 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public User save(User newUser) {
+        return userRepository.save(newUser); //con esto registramos en BD
+    }
+
+    public void delete(long id) {
+        userRepository.delete(new User(id)); //Se pasa el id para eliminar un registro, pide crear este constructor en la entidad User ya que en el constructor de la entidad User no fue agreago el id
+    }
+
+    public User update(User newUser, Long id) { //setear los usuarios en la BD
+        userRepository.findById(id)
+            .map(
+                    user -> {
+                        user.setEmail(newUser.getEmail());
+                        user.setBirthDate(newUser.getBirthDate());
+                        user.setName(newUser.getName());
+
+                        return userRepository.save(user);  //guardar la entidad ya mapeada con los nuevos valores
+                    }
+            );
+    }
 }
