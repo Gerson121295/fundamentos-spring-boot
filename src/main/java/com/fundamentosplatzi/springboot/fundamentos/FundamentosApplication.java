@@ -65,9 +65,9 @@ public class FundamentosApplication implements CommandLineRunner { /* Implementa
 	@Override
 	public void run(String... args) {  	//	throws Exception { /*Este metodo ejecuta todo lo que querramos mostrar */
 		// ejemplosAnteriores();
-		// saveUsersInDataBase(); //llamada del metodo //luego ejecutar y en el servidor se muestran los log de sentencias sql
+		 saveUsersInDataBase(); //llamada del metodo //luego ejecutar y en el servidor se muestran los log de sentencias sql
 		// getInformationJpqlFromUser();
-		saveWithErrorTransactional();
+		//saveWithErrorTransactional();
 	}
 
 
