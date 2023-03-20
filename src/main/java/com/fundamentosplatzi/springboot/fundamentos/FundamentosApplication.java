@@ -7,6 +7,7 @@ import com.fundamentosplatzi.springboot.fundamentos.component.ComponentDependenc
 import com.fundamentosplatzi.springboot.fundamentos.entity.User;
 import com.fundamentosplatzi.springboot.fundamentos.pojo.UserPojo;
 import com.fundamentosplatzi.springboot.fundamentos.repository.UserRepository;
+import com.fundamentosplatzi.springboot.fundamentos.service.UserService;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +37,14 @@ public class FundamentosApplication implements CommandLineRunner { /* Implementa
 
 	//Inyectar el repositorio como dependencia
 	private UserRepository userRepository;
+	private UserService userService;
+
+
 
 	/*Por medio del constructor se agrega la interfaces*/
 	@Autowired /* ya no es obligatorio en versiones recientes */
-	public FundamentosApplication(@Qualifier("componentTwoImplement") ComponentDependency componentDependency, MyBean myBean, MyBeanWithDependency myBeanWithDependency,
-								  MyBeanWithProperties myBeanWithProperties, UserPojo userPojo, UserRepository userRepository) {  /*constructor recibe la dependencia para poderla inyectar, y el nombre de la dependencia es componentDependency */
+	public FundamentosApplication(@Qualifier("componentTwoImplement") ComponentDependency componentDependency, MyBean myBean, MyBeanWithDependency myBeanWithDependency,   //pasados como atributos
+								  MyBeanWithProperties myBeanWithProperties, UserPojo userPojo, UserRepository userRepository, UserService userService) {  /*constructor recibe la dependencia para poderla inyectar, y el nombre de la dependencia es componentDependency */
 		/*@Qualifier permite elegir la dependencia que queremos inyectaran, debido a que hay 2 dependecias, la anterior y la actual" en este caso es ComponenetTwoImplementi*/
 		this.componentDependency = componentDependency; //llamada de la propiedad y la igualo al parametro dado.
 		this.myBean = myBean;
@@ -48,6 +52,7 @@ public class FundamentosApplication implements CommandLineRunner { /* Implementa
 		this.myBeanWithProperties = myBeanWithProperties;
 		this.userPojo = userPojo; //llamamos a la propiedad de la clase UserPojo con this y la igualamos al parameto del constructor
 		this.userRepository = userRepository;
+		this.userService = userService;
 	}
 
 
@@ -59,13 +64,36 @@ public class FundamentosApplication implements CommandLineRunner { /* Implementa
 	/*Utilizacion de la dependencia como implementacion dentro de otro objeto o clase*/
 	@Override
 	public void run(String... args) {  	//	throws Exception { /*Este metodo ejecuta todo lo que querramos mostrar */
-		//ejemplosAnteriores();
-		saveUsersInDataBase(); //llamada del metodo //luego ejecutar y en el servidor se muestran los log de sentencias sql
-		getInformationJpqlFromUser();
+		// ejemplosAnteriores();
+		// saveUsersInDataBase(); //llamada del metodo //luego ejecutar y en el servidor se muestran los log de sentencias sql
+		// getInformationJpqlFromUser();
+		saveWithErrorTransactional();
 	}
+
+
+	//Metodo para transactional C25
+	private void saveWithErrorTransactional(){
+		//instancias de las entidades
+		User test1  = new User("TestTransactional1", "TestTransactional1@gmail.com", LocalDate.now()); //para agregar nuevos usuarios nombre, correo, fecha de hoy(now)
+		User test2  = new User("TestTransactional2", "TestTransactional2@gmail.com", LocalDate.now());
+		User test3  = new User("TestTransactional3", "TestTransactional3@gmail.com", LocalDate.now());
+		User test4  = new User("TestTransactional4", "TestTransactional4@gmail.com", LocalDate.now());
+
+		List<User> users = Arrays.asList(test1, test2, test3, test4);
+		userService.saveTransactional(users);
+
+		userService.getAllUsers()  //todolos users con stream(lo muestra en pantalla)
+		.forEach(user -> LOGGER.info("Este es el usuario dentro del metodo transaccion "+user));
+
+	}
+
+
 
 	//Metodo para JPQL
 	private void getInformationJpqlFromUser() {
+
+
+
 		LOGGER.info("Usuario con el metodo findByUserEmail " + userRepository.findByUserEmail("John@domain.com")    //llamar a la dependencia userRepositorio.finByEmail() - metodo escrito por nosotros
 				.orElseThrow(() -> new RuntimeException("No se encontro el usuario"))); //orElseThrow en caso q no lo encuentre, muestre el mensaje
 
@@ -114,6 +142,9 @@ public class FundamentosApplication implements CommandLineRunner { /* Implementa
 
 		LOGGER.info("El usuario a partir del named parameter es: " + userRepository.getAllByBirthDateAndEmail(LocalDate.of(2021,03,20), "John@domain.com") //se envia de los parametros de nombre o email a buscar en la BD
 				.orElseThrow(()->new RuntimeException("No se a encontrado elusuario a parti del named parameter")));
+
+
+
 	}
 
 
