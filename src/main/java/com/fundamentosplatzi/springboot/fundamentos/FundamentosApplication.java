@@ -74,15 +74,23 @@ public class FundamentosApplication implements CommandLineRunner { /* Implementa
 	//Metodo para transactional C25
 	private void saveWithErrorTransactional(){
 		//instancias de las entidades
+		//Ejemplo de que se genere un rollback en user se agrego unique a email el correo debe ser unico
+		// si el correo se repite en el 3r registro(es igual al 1ro) se generará un rollaback ninguno de los registros insertados anteriores se guardará en la BD.
+
 		User test1  = new User("TestTransactional1", "TestTransactional1@gmail.com", LocalDate.now()); //para agregar nuevos usuarios nombre, correo, fecha de hoy(now)
 		User test2  = new User("TestTransactional2", "TestTransactional2@gmail.com", LocalDate.now());
-		User test3  = new User("TestTransactional3", "TestTransactional3@gmail.com", LocalDate.now());
+		User test3  = new User("TestTransactional3", "TestTransactional1@gmail.com", LocalDate.now());
 		User test4  = new User("TestTransactional4", "TestTransactional4@gmail.com", LocalDate.now());
 
-		List<User> users = Arrays.asList(test1, test2, test3, test4);
-		userService.saveTransactional(users);
 
-		userService.getAllUsers()  //todolos users con stream(lo muestra en pantalla)
+		List<User> users = Arrays.asList(test1, test2, test3, test4);
+		try {
+			userService.saveTransactional(users);
+		}catch (Exception e){
+			LOGGER.error("Esta es una exception dentro del metodo transaccional " + e);
+		}
+
+		userService.getAllUsers().stream()  //todolos users con stream(lo muestra en pantalla)
 		.forEach(user -> LOGGER.info("Este es el usuario dentro del metodo transaccion "+user));
 
 	}
@@ -152,7 +160,7 @@ public class FundamentosApplication implements CommandLineRunner { /* Implementa
 	private  void saveUsersInDataBase(){
 		User user1 = new User("John", "John@domain.com", LocalDate.of(2021,03,20));
 		User user2 = new User("Julie", "Julie@domain.com", LocalDate.of(2020,07,10));
-		User user3 = new User("John", "user3@domain.com", LocalDate.of(2018,03,12));
+		User user3 = new User("Johny", "Johny@domain.com", LocalDate.of(2018,03,12));
 		User user4 = new User("user4", "user4@domain.com", LocalDate.of(2022,04,20));
 		User user5 = new User("user5", "user5@domain.com", LocalDate.of(2021,06,03));
 		User user6 = new User("user6", "user6@domain.com", LocalDate.of(2020,05,18));

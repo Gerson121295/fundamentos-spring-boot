@@ -18,7 +18,7 @@ public class User {
     @Column(length = 50)
     private String name;
 
-    @Column(length = 50)
+    @Column(length = 50, unique = true) //unique sig. que el email sera unico si hay un email con el mismo se generará un error
     private String email;
 
     private LocalDate birthDate;
