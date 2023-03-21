@@ -6,6 +6,8 @@ import com.fundamentosplatzi.springboot.fundamentos.caseuse.DeleteUser;
 import com.fundamentosplatzi.springboot.fundamentos.caseuse.GetUser;
 import com.fundamentosplatzi.springboot.fundamentos.caseuse.UpdateUser;
 import com.fundamentosplatzi.springboot.fundamentos.entity.User;
+import com.fundamentosplatzi.springboot.fundamentos.repository.UserRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,14 +27,16 @@ public class UserRestController {
     private CreateUser createUser; //inyectar el caso de uso
     private DeleteUser deleteUser;
     private UpdateUser updateUser;
+    private UserRepository userRepository; //para construir un metodo para la paginacion
 
     //inyeccion por constructor
     public UserRestController(GetUser getUser, CreateUser createUser,  //inyeccion de dependencias como getUser por constructos
-                              DeleteUser deleteUser, UpdateUser updateUser) {
+                              DeleteUser deleteUser, UpdateUser updateUser, UserRepository userRepository) {
         this.getUser = getUser;
         this.createUser = createUser;
         this.deleteUser = deleteUser;
         this.updateUser = updateUser;
+        this.userRepository = userRepository;
     }
 
     //Metodos a implementar
@@ -59,6 +63,14 @@ public class UserRestController {
     @PutMapping("/{id}")  //recibe un id del usuario a eliminar
     ResponseEntity<User> replaceUser(@RequestBody User newUser, @PathVariable Long id){ //recibe como parametro un cuerpo y el id
         return new ResponseEntity<>(updateUser.update(newUser, id), HttpStatus.OK); //llama al metodo update(en CaseUse) y se le envia 2 parametros el newUser y el id, devuelve una nueva instancia de ResponseEntity ok de 200 exitoso
+    }
+
+    //Metodo relacionado Para consumir todo sobre la Paginacion
+    @GetMapping("/pageable")
+    List<User> getUserPageable(@RequestParam int page, @RequestParam int size){     //2Parametros: 1ro. la pagina en la que nos encontramos, 2do.size
+
+        return userRepository.findAll(PageRequest.of(page,size)).getContent();   // en of pasamos la Pagina, y (size)el peso que se va a mostrar en cada pagina, findAll retribuye el metodo getContent y este metodo retribuye la lista de los usuarios.
+
     }
 
 }

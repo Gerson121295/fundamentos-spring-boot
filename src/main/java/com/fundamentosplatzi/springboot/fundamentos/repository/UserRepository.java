@@ -5,6 +5,7 @@ import com.fundamentosplatzi.springboot.fundamentos.entity.User;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +16,10 @@ import java.util.Optional;
 
 @Repository
 //JpaRepostory tiene  metodos definidos presionar ctrl + clic para ver los metodos como getById delete etc.
-public interface UserRepository extends JpaRepository<User, Long> { //JpaRepository recibe 2 parametros 1ro la entidad a mapear y 2do. el tipo de dato de id de esa entidad
-
+   //ya no se heredada la interfaz(JpaRepository)se borra y se agrega PagingAndSortingRepository //esta interfaz tiene todos los metodos relacionados con el pagiable(ctrl+clic sobre PagingAndSortingRepository para ver los metodos y copiar Iterable<T> findAll(Sort sort); y pegarlo y modificarlo en el QUERY (abajo clase24)
+  //  public interface UserRepository extends PagingAndSortingRepository<User, Long> { //JpaRepository recibe 2 parametros 1ro la entidad a mapear y 2do. el tipo de dato de id de esa entidad
+//No es necesario cambiar la herencia a PagingAndSortingRepository, porque JpaRepository ya hereda de ella.
+    public interface UserRepository extends JpaRepository<User, Long> { //JpaRepository recibe 2 parametros 1ro la entidad a mapear y 2do. el tipo de dato de id de esa entidad
     //ejemplos de JPQL
     //Crear un metodo que devolvera un opcional
 
@@ -51,5 +54,6 @@ public interface UserRepository extends JpaRepository<User, Long> { //JpaReposit
             "and u.email=:parametroEmail")
             Optional<UserDto> getAllByBirthDateAndEmail(@Param("parametroFecha") LocalDate date, //con @Param se hace que los Parametros anteriores se representan con las de la variable del metodo que estamos creando aca
                                                         @Param("parametroEmail") String email);   //<UserDto es nuestro DTO, getgetAllByBirthDateAndEmail(es el metodo), que recibe 2 parametros (date y email)
+    List<User> findAll(); //Iterable<T> findAll(Sort sort); //para paginar la lista de registros a mostrar
 }
 

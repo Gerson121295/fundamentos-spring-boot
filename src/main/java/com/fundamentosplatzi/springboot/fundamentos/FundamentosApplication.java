@@ -6,6 +6,7 @@ import com.fundamentosplatzi.springboot.fundamentos.bean.MyBeanWithProperties;
 import com.fundamentosplatzi.springboot.fundamentos.component.ComponentDependency;
 import com.fundamentosplatzi.springboot.fundamentos.entity.User;
 import com.fundamentosplatzi.springboot.fundamentos.pojo.UserPojo;
+
 import com.fundamentosplatzi.springboot.fundamentos.repository.UserRepository;
 import com.fundamentosplatzi.springboot.fundamentos.service.UserService;
 import org.apache.juli.logging.Log;
